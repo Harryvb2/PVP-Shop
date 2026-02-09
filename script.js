@@ -3,8 +3,7 @@ const products = [
     {id:1, name:"Discord Nitro – 1 Month", price:7},
     {id:2, name:"Discord Nitro – 1 Year", price:70},
     {id:3, name:"Server Boost (14x) – 1 Month", price:5},
-    {id:4, name:"Server Boost (14x) – 3 Months", price:15},
-
+    {id:4, name:"Server Boost (14x) – 3 Months", price:15}
 ];
 
 // ---------------- Cart Logic ----------------
@@ -91,7 +90,7 @@ function checkout() {
     const orderID = "PVP-"+Math.floor(1000000000+Math.random()*9000000000);
     localStorage.setItem("lastOrder",JSON.stringify({orderID,email,discord,cart}));
 
-    // Open PayPal for first product (example)
+    // Open PayPal with total amount
     const total = cart.reduce((sum,i)=>sum+i.price,0);
     window.open("https://paypal.me/HarryFiveMYT/"+total, "_blank");
 
@@ -101,3 +100,4 @@ function checkout() {
     updateCartCount();
 }
 updateCartCount();
+

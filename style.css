@@ -73,7 +73,7 @@ a {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('profiel store discord.png') center/cover no-repeat;
+    background: linear-gradient(135deg, #111 0%, #222 100%);
     text-align: center;
 }
 
@@ -233,4 +233,24 @@ a {
     border: 1px solid #333;
     background-color: #111;
     color: #fff;
+}
+
+/* ------------------- Footer ------------------- */
+footer {
+    background-color: #111;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    margin-top: 50px;
+    border-top: 2px solid #222;
+}
+
+footer img {
+    height: 30px;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+footer p {
+    display: inline;
 }
