@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Checkout - PVP Shop</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body onload="displayCheckout()">
+<header>
+  <h1>Checkout</h1>
+</header>
+<div class="container">
+  <p>Product: <span id="productName"></span></p>
+  <p>Price: <span id="productPrice"></span></p>
+
+  <label>Email:</label>
+  <input type="email" id="email" required>
+  
+  <label>Discord ID:</label>
+  <input type="text" id="discordId" required>
+
+  <label>Payment Method:</label>
+  <select id="paymentMethod">
+    <option>PayPal</option>
+    <option>Tikkie</option>
+  </select>
+
+  <button onclick="placeOrder()">Place Order</button>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
