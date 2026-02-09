@@ -1,103 +1,93 @@
-// ---------------- Products ----------------
-const products = [
-    {id:1, name:"Discord Nitro – 1 Month", price:7},
-    {id:2, name:"Discord Nitro – 1 Year", price:70},
-    {id:3, name:"Server Boost (14x) – 1 Month", price:5},
-    {id:4, name:"Server Boost (14x) – 3 Months", price:15}
-];
+/* Reset */
+* {margin:0;padding:0;box-sizing:border-box;}
+body {font-family: 'Roboto', sans-serif; background:#f5f5f5; color:#222;}
+a {text-decoration:none; color:inherit;}
 
-// ---------------- Cart Logic ----------------
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-function updateCartCount() {
-    const count = cart.length;
-    const badge = document.querySelector(".cart-count");
-    if (badge) badge.innerText = count;
+/* Navbar */
+.navbar {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 50px;
+    background:#333;
+    color:#fff;
+    position:sticky; top:0; z-index:1000;
+}
+.navbar .logo img {height:50px;}
+.navbar ul {list-style:none; display:flex; gap:30px;}
+.navbar ul li {cursor:pointer; transition:0.3s;}
+.navbar ul li:hover {color:#ff4d4d;}
+.navbar .cart {position:relative; cursor:pointer; font-size:1.5em;}
+.cart-count {
+    position:absolute; top:-10px; right:-15px;
+    background:#ff4d4d; color:#fff; padding:3px 7px;
+    border-radius:50%; font-size:0.8em;
 }
 
-// ---------------- Add to cart ----------------
-function addToCart(productId) {
-    if(cart.length >= 3){
-        alert("Max 3 items in cart!");
-        return;
-    }
-    const product = products.find(p=>p.id==productId);
-    cart.push(product);
-    localStorage.setItem("cart", JSON.stringify(cart));
-    updateCartCount();
-    alert(product.name + " added to cart!");
+/* Hero Section */
+.hero {
+    width:100%; height:100vh; display:flex; flex-direction:column;
+    justify-content:center; align-items:center; text-align:center;
+    background: linear-gradient(to right,#4d79ff,#1a1a1a);
+    color:#fff; padding:20px;
+}
+.hero h1 {font-size:4em; margin-bottom:15px;}
+.hero p {font-size:1.5em; margin-bottom:30px;}
+.hero .buttons {display:flex; gap:20px;}
+.hero .buttons a {
+    padding:15px 40px; background:#ff4d4d; color:#fff; border-radius:8px; font-weight:bold;
+    transition:0.3s;
+}
+.hero .buttons a:hover {background:#4dff88; color:#000;}
+
+/* Product Grid */
+.container {max-width:1200px; margin:50px auto; padding:0 20px;
+    display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:25px;
+}
+.product-card {background:#fff; border-radius:10px; padding:20px; box-shadow:0 0 8px rgba(0,0,0,0.2);}
+.product-card h3{margin-bottom:10px;}
+.product-card p{margin-bottom:15px;}
+.product-card button{
+    padding:10px 20px; border:none; border-radius:5px; background:#ff4d4d; color:#fff;
+    font-weight:bold; cursor:pointer; transition:0.3s;
+}
+.product-card button:hover {background:#4dff88; color:#000;}
+
+/* Cart */
+.cart-container {max-width:900px; margin:50px auto; padding:20px; background:#fff; border-radius:10px;}
+.cart-item {
+    display:flex; justify-content:space-between; align-items:center;
+    padding:10px 0; border-bottom:1px solid #ccc;
+}
+.cart-item button.delete{
+    padding:5px 10px; border:none; border-radius:5px; background:#ff4d4d; color:#fff;
+    cursor:pointer;
+}
+.cart-item button.delete:hover {background:#4dff88; color:#000;}
+.total {text-align:right; margin-top:20px; font-weight:bold; font-size:1.2em;}
+.checkout-button{
+    margin-top:20px; padding:15px 30px; background:#ff4d4d; color:#fff; border:none;
+    border-radius:8px; cursor:pointer; font-weight:bold; transition:0.3s;
+}
+.checkout-button:hover {background:#4dff88; color:#000;}
+.checkout-form {display:flex; flex-direction:column; gap:10px; margin-top:20px;}
+.checkout-form input, .checkout-form select{
+    padding:10px; border-radius:5px; border:1px solid #ccc;
 }
 
-// ---------------- Display Products ----------------
-function displayProductsGrid() {
-    const container = document.getElementById("product-grid");
-    if(!container) return;
-    container.innerHTML="";
-    products.forEach(p=>{
-        const div = document.createElement("div");
-        div.className="product-card";
-        div.innerHTML=`
-            <h3>${p.name}</h3>
-            <p>€${p.price}</p>
-            <button onclick="addToCart(${p.id})">Add to Cart</button>
-        `;
-        container.appendChild(div);
-    });
-}
+/* Discord page */
+.discord-hero {height:80vh; display:flex; flex-direction:column; justify-content:center; align-items:center; background:#4d79ff; color:#fff; text-align:center;}
+.discord-hero a {padding:15px 40px; background:#ff4d4d; border-radius:8px; color:#fff; font-weight:bold; transition:0.3s;}
+.discord-hero a:hover {background:#4dff88; color:#000;}
 
-// ---------------- Display Cart ----------------
-function displayCart() {
-    const container = document.getElementById("cart-items");
-    if(!container) return;
-    container.innerHTML="";
-    let total=0;
-    cart.forEach((item,index)=>{
-        total+=item.price;
-        const div=document.createElement("div");
-        div.className="cart-item";
-        div.innerHTML=`
-            <h4>${item.name}</h4>
-            <p>€${item.price}</p>
-            <button class="delete" onclick="removeFromCart(${index})">X</button>
-        `;
-        container.appendChild(div);
-    });
-    const totalEl=document.getElementById("cart-total");
-    if(totalEl) totalEl.innerText="Total: €"+total;
-}
+/* Admin Table */
+.admin-container {max-width:1000px; margin:50px auto; padding:0 20px;}
+.admin-container table {width:100%; border-collapse:collapse; background:#fff;}
+.admin-container th, td {padding:12px; border:1px solid #ccc; text-align:center;}
+.admin-container th {background:#f2f2f2;}
+.admin-container select{padding:5px; border-radius:5px; border:1px solid #ccc;}
 
-// ---------------- Remove from Cart ----------------
-function removeFromCart(index){
-    cart.splice(index,1);
-    localStorage.setItem("cart",JSON.stringify(cart));
-    displayCart();
-    updateCartCount();
-}
-
-// ---------------- Checkout ----------------
-function checkout() {
-    const email = document.getElementById("email").value;
-    const discord = document.getElementById("discord").value;
-    if(!email || !discord){
-        alert("Please fill email and Discord ID!");
-        return;
-    }
-    if(cart.length==0){
-        alert("Cart is empty!");
-        return;
-    }
-
-    const orderID = "PVP-"+Math.floor(1000000000+Math.random()*9000000000);
-    localStorage.setItem("lastOrder",JSON.stringify({orderID,email,discord,cart}));
-
-    // Open PayPal with total amount
-    const total = cart.reduce((sum,i)=>sum+i.price,0);
-    window.open("https://paypal.me/HarryFiveMYT/"+total, "_blank");
-
-    alert("Order placed! Your Order ID: "+orderID+"\nTikkie not available yet. Please create a ticket for Tikkie payments.");
-    cart=[];
-    localStorage.setItem("cart",JSON.stringify(cart));
-    updateCartCount();
-}
-updateCartCount();
+/* Footer */
+footer {background:#333; color:#fff; text-align:center; padding:20px; margin-top:50px;}
+footer img {height:30px; vertical-align:middle; margin-right:10px;}
 

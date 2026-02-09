@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
 <div class="navbar">
     <div class="logo"><img src="profiel store discord.png" alt="Logo"></div>
     <ul>
@@ -17,20 +18,13 @@
 </div>
 
 <div class="cart-container">
-    <h2>Your Cart</h2>
     <div id="cart-items"></div>
-    <div class="total" id="cart-total"></div>
-    
-    <h3>Checkout</h3>
-    <div class="checkout-form">
-        <input type="email" id="email" placeholder="Your Email">
-        <input type="text" id="discord" placeholder="Discord ID">
-        <select id="payment">
-            <option>PayPal</option>
-            <option>Tikkie (ticket only)</option>
-        </select>
-        <button class="checkout-button" onclick="checkout()">Buy</button>
-    </div>
+    <div class="total" id="cart-total">Total: €0</div>
+    <form class="checkout-form" onsubmit="event.preventDefault(); checkout();">
+        <input type="email" id="email" placeholder="Your Email" required>
+        <input type="text" id="discord" placeholder="Your Discord ID" required>
+        <button class="checkout-button">Checkout</button>
+    </form>
 </div>
 
 <footer>
