@@ -4,12 +4,133 @@
 <meta charset="UTF-8">
 <title>Admin - PVP Shop</title>
 <link rel="stylesheet" href="style.css">
+<style>
+    .admin-container {
+        max-width: 900px;
+        margin: 50px auto;
+        padding: 0 20px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #111;
+        color: #fff;
+    }
+    th, td {
+        border: 1px solid #222;
+        padding: 10px;
+        text-align: center;
+    }
+    th {
+        background-color: #222;
+    }
+    select {
+        padding: 5px;
+        border-radius: 5px;
+        border: 1px solid #333;
+        background-color: #111;
+        color: #fff;
+    }
+    button.delete {
+        background-color: #ff0000;
+        border: none;
+        border-radius: 5px;
+        padding: 5px 10px;
+        color: #fff;
+        cursor: pointer;
+    }
+    button.delete:hover {
+        background-color: #00ff00;
+        color: #000;
+    }
+</style>
 </head>
-<body onload="displayAdmin()">
-<header>
-  <h1>Admin Orders</h1>
-</header>
-<div class="container" id="orders"></div>
+<body>
+<div class="navbar">
+    <div class="logo"><img src="profiel store discord.png" alt="Logo"></div>
+    <ul>
+        <li onclick="location.href='index.html'">Home</li>
+        <li onclick="location.href='shop.html'">Shop</li>
+        <li onclick="window.open('https://discord.gg/pvpmarket')">Discord</li>
+    </ul>
+    <div class="cart" onclick="location.href='cart.html'">🛒<span class="cart-count">0</span></div>
+</div>
+
+<div class="admin-container">
+    <h2>Admin - Orders</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Email</th>
+                <th>Discord ID</th>
+                <th>Products</th>
+                <th>Total (€)</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="orders-table"></tbody>
+    </table>
+</div>
+
 <script src="script.js"></script>
+<script>
+function displayOrders() {
+    const table = document.getElementById("orders-table");
+    table.innerHTML="";
+    let orders = JSON.parse(localStorage.getItem("orders")) || [];
+    orders.forEach((order,index)=>{
+        let productsList = order.cart.map(p=>p.name).join(", ");
+        let total = order.cart.reduce((sum,i)=>sum+i.price,0);
+        let row = document.createElement("tr");
+        row.innerHTML=`
+            <td>${order.orderID}</td>
+            <td>${order.email}</td>
+            <td>${order.discord}</td>
+            <td>${productsList}</td>
+            <td>${total}</td>
+            <td>
+                <select onchange="updateStatus(${index}, this.value)">
+                    <option ${order.status=="Pending"?"selected":""}>Pending</option>
+                    <option ${order.status=="Paid"?"selected":""}>Paid</option>
+                    <option ${order.status=="In Progress"?"selected":""}>In Progress</option>
+                    <option ${order.status=="Completed"?"selected":""}>Completed</option>
+                    <option ${order.status=="Cancelled"?"selected":""}>Cancelled</option>
+                </select>
+            </td>
+            <td><button class="delete" onclick="deleteOrder(${index})">Delete</button></td>
+        `;
+        table.appendChild(row);
+    });
+}
+
+function updateStatus(index, status){
+    let orders = JSON.parse(localStorage.getItem("orders")) || [];
+    orders[index].status = status;
+    localStorage.setItem("orders", JSON.stringify(orders));
+}
+
+function deleteOrder(index){
+    let orders = JSON.parse(localStorage.getItem("orders")) || [];
+    if(confirm("Are you sure you want to delete this order?")){
+        orders.splice(index,1);
+        localStorage.setItem("orders", JSON.stringify(orders));
+        displayOrders();
+    }
+}
+
+// Save new orders from last checkout
+let lastOrder = JSON.parse(localStorage.getItem("lastOrder"));
+if(lastOrder){
+    let orders = JSON.parse(localStorage.getItem("orders")) || [];
+    lastOrder.status = "Pending";
+    orders.push(lastOrder);
+    localStorage.setItem("orders", JSON.stringify(orders));
+    localStorage.removeItem("lastOrder");
+}
+
+displayOrders();
+</script>
 </body>
 </html>

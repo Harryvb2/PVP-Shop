@@ -2,31 +2,23 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Checkout - PVP Shop</title>
+<title>Shop - PVP Shop</title>
 <link rel="stylesheet" href="style.css">
 </head>
-<body onload="displayCheckout()">
-<header>
-  <h1>Checkout</h1>
-</header>
-<div class="container">
-  <p>Product: <span id="productName"></span></p>
-  <p>Price: <span id="productPrice"></span></p>
-
-  <label>Email:</label>
-  <input type="email" id="email" required>
-  
-  <label>Discord ID:</label>
-  <input type="text" id="discordId" required>
-
-  <label>Payment Method:</label>
-  <select id="paymentMethod">
-    <option>PayPal</option>
-    <option>Tikkie</option>
-  </select>
-
-  <button onclick="placeOrder()">Place Order</button>
+<body>
+<div class="navbar">
+    <div class="logo"><img src="profiel store discord.png" alt="Logo"></div>
+    <ul>
+        <li onclick="location.href='index.html'">Home</li>
+        <li onclick="location.href='shop.html'">Shop</li>
+        <li onclick="window.open('https://discord.gg/pvpmarket')">Discord</li>
+    </ul>
+    <div class="cart" onclick="location.href='cart.html'">🛒<span class="cart-count">0</span></div>
 </div>
+
+<div class="container" id="product-grid"></div>
+
 <script src="script.js"></script>
+<script>displayProductsGrid();</script>
 </body>
 </html>
