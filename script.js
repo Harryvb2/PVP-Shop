@@ -1,99 +1,103 @@
-// -------------------------
-// Products
-// -------------------------
+// ---------------- Products ----------------
 const products = [
-  { id: 1, name: "Discord Nitro – 1 Month", price: 7, paymentMethods: ["PayPal", "Tikkie"] },
-  { id: 2, name: "Discord Nitro – 1 Year", price: 70, paymentMethods: ["PayPal", "Tikkie"] },
-  { id: 3, name: "Server Boost (14x) – 1 Month", price: 5, paymentMethods: ["PayPal", "Tikkie"] },
-  { id: 4, name: "Server Boost (14x) – 3 Months", price: 15, paymentMethods: ["PayPal", "Tikkie"] },
-  { id: 5, name: "Discord Decorations", price: 10, paymentMethods: ["PayPal", "Tikkie"] },
-  { id: 6, name: "TikTok Services", price: 5, paymentMethods: ["PayPal", "Tikkie"] },
-  { id: 7, name: "YouTube Services", price: 5, paymentMethods: ["PayPal", "Tikkie"] },
-  { id: 8, name: "CapCut Pro – Lifetime", price: 15, paymentMethods: ["PayPal", "Tikkie"] },
-  { id: 9, name: "Fortnite V-Bucks", price: 50, paymentMethods: ["PayPal", "Tikkie"] }
+    {id:1, name:"Discord Nitro – 1 Month", price:7},
+    {id:2, name:"Discord Nitro – 1 Year", price:70},
+    {id:3, name:"Server Boost (14x) – 1 Month", price:5},
+    {id:4, name:"Server Boost (14x) – 3 Months", price:15},
+
 ];
 
-// -------------------------
-// Orders storage
-// -------------------------
-let orders = JSON.parse(localStorage.getItem("orders")) || [];
+// ---------------- Cart Logic ----------------
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-// -------------------------
-// Display products
-// -------------------------
-function displayProducts() {
-  const container = document.getElementById("products");
-  container.innerHTML = "";
-  products.forEach(prod => {
-    const div = document.createElement("div");
-    div.className = "product";
-    div.innerHTML = `
-      <h3>${prod.name}</h3>
-      <p>Price: €${prod.price}</p>
-      <p>Payment: ${prod.paymentMethods.join(", ")}</p>
-      <button onclick="addToCart(${prod.id})">Buy</button>
-    `;
-    container.appendChild(div);
-  });
+function updateCartCount() {
+    const count = cart.length;
+    const badge = document.querySelector(".cart-count");
+    if (badge) badge.innerText = count;
 }
 
+// ---------------- Add to cart ----------------
 function addToCart(productId) {
-  localStorage.setItem("selectedProduct", productId);
-  window.location.href = "cart.html";
+    if(cart.length >= 3){
+        alert("Max 3 items in cart!");
+        return;
+    }
+    const product = products.find(p=>p.id==productId);
+    cart.push(product);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    updateCartCount();
+    alert(product.name + " added to cart!");
 }
 
-// -------------------------
-// Checkout
-// -------------------------
-function displayCheckout() {
-  const productId = localStorage.getItem("selectedProduct");
-  const product = products.find(p => p.id == productId);
-  if (!product) return;
-
-  document.getElementById("productName").innerText = product.name;
-  document.getElementById("productPrice").innerText = `€${product.price}`;
+// ---------------- Display Products ----------------
+function displayProductsGrid() {
+    const container = document.getElementById("product-grid");
+    if(!container) return;
+    container.innerHTML="";
+    products.forEach(p=>{
+        const div = document.createElement("div");
+        div.className="product-card";
+        div.innerHTML=`
+            <h3>${p.name}</h3>
+            <p>€${p.price}</p>
+            <button onclick="addToCart(${p.id})">Add to Cart</button>
+        `;
+        container.appendChild(div);
+    });
 }
 
-function placeOrder() {
-  const email = document.getElementById("email").value;
-  const discordId = document.getElementById("discordId").value;
-  const paymentMethod = document.getElementById("paymentMethod").value;
-  const productId = localStorage.getItem("selectedProduct");
-  const product = products.find(p => p.id == productId);
-
-  if (!email || !discordId) {
-    alert("Please enter email and Discord ID");
-    return;
-  }
-
-  const orderID = `PVP-${Math.floor(Math.random() * 1000000)}`;
-  const order = { orderID, email, discordId, productName: product.name, amount: product.price, paymentMethod, status: "WAITING_FOR_PAYMENT" };
-  orders.push(order);
-  localStorage.setItem("orders", JSON.stringify(orders));
-
-  alert(`Order placed! Your Order ID: ${orderID}`);
-
-  // Redirect based on payment
-  if (paymentMethod === "PayPal") {
-    window.open("https://www.paypal.com/paypalme/yourlink/" + product.price, "_blank");
-  } else if (paymentMethod === "Tikkie") {
-    window.open("https://www.tikkie.me/paylink?amount=" + product.price, "_blank");
-  }
-
-  window.location.href = "index.html";
+// ---------------- Display Cart ----------------
+function displayCart() {
+    const container = document.getElementById("cart-items");
+    if(!container) return;
+    container.innerHTML="";
+    let total=0;
+    cart.forEach((item,index)=>{
+        total+=item.price;
+        const div=document.createElement("div");
+        div.className="cart-item";
+        div.innerHTML=`
+            <h4>${item.name}</h4>
+            <p>€${item.price}</p>
+            <button class="delete" onclick="removeFromCart(${index})">X</button>
+        `;
+        container.appendChild(div);
+    });
+    const totalEl=document.getElementById("cart-total");
+    if(totalEl) totalEl.innerText="Total: €"+total;
 }
 
-// -------------------------
-// Admin view
-// -------------------------
-function displayAdmin() {
-  const container = document.getElementById("orders");
-  container.innerHTML = "";
-  orders.forEach(order => {
-    const div = document.createElement("div");
-    div.innerHTML = `
-      <p><strong>${order.orderID}</strong> - ${order.productName} - ${order.email} - ${order.discordId} - ${order.amount}€ - ${order.paymentMethod} - ${order.status}</p>
-    `;
-    container.appendChild(div);
-  });
+// ---------------- Remove from Cart ----------------
+function removeFromCart(index){
+    cart.splice(index,1);
+    localStorage.setItem("cart",JSON.stringify(cart));
+    displayCart();
+    updateCartCount();
 }
+
+// ---------------- Checkout ----------------
+function checkout() {
+    const email = document.getElementById("email").value;
+    const discord = document.getElementById("discord").value;
+    if(!email || !discord){
+        alert("Please fill email and Discord ID!");
+        return;
+    }
+    if(cart.length==0){
+        alert("Cart is empty!");
+        return;
+    }
+
+    const orderID = "PVP-"+Math.floor(1000000000+Math.random()*9000000000);
+    localStorage.setItem("lastOrder",JSON.stringify({orderID,email,discord,cart}));
+
+    // Open PayPal for first product (example)
+    const total = cart.reduce((sum,i)=>sum+i.price,0);
+    window.open("https://paypal.me/HarryFiveMYT/"+total, "_blank");
+
+    alert("Order placed! Your Order ID: "+orderID+"\nTikkie not available yet. Please create a ticket for Tikkie payments.");
+    cart=[];
+    localStorage.setItem("cart",JSON.stringify(cart));
+    updateCartCount();
+}
+updateCartCount();

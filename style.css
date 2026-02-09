@@ -1,55 +1,236 @@
+/* ------------------- General ------------------- */
 body {
-  font-family: Arial, sans-serif;
-  background-color: #000;
-  color: #fff;
-  margin: 0;
-  padding: 0;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #0a0a0a;
+    color: #fff;
 }
 
-header {
-  background-color: #111;
-  padding: 20px;
-  text-align: center;
+a {
+    text-decoration: none;
+    color: inherit;
 }
 
-h1 {
-  color: #ff0000;
+/* ------------------- Navbar ------------------- */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #111;
+    padding: 10px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
-button {
-  background-color: #ff0000;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  margin: 5px;
-  cursor: pointer;
-  border-radius: 8px;
+.navbar .logo img {
+    height: 50px;
 }
 
-button:hover {
-  background-color: #00ff00;
-  color: #000;
+.navbar ul {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+    margin: 0;
+    padding: 0;
+    justify-content: center;
+    flex: 1;
 }
 
-.product {
-  border: 1px solid #444;
-  padding: 15px;
-  margin: 10px;
-  border-radius: 8px;
+.navbar ul li {
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
 }
 
-input, select {
-  padding: 8px;
-  margin: 5px 0;
-  width: 100%;
-  border-radius: 5px;
-  border: 1px solid #555;
-  background-color: #222;
-  color: #fff;
+.navbar ul li:hover {
+    color: #ff0000;
+    text-shadow: 0 0 5px #ff0000;
 }
 
+.navbar .cart {
+    font-size: 1.5em;
+    cursor: pointer;
+    position: relative;
+}
+
+.cart-count {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background-color: #ff0000;
+    color: #fff;
+    font-size: 0.8em;
+    padding: 2px 6px;
+    border-radius: 50%;
+}
+
+/* ------------------- Hero / Banner ------------------- */
+.hero {
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('profiel store discord.png') center/cover no-repeat;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 4em;
+    color: #ff0000;
+    text-shadow: 0 0 10px #ff0000, 0 0 20px #00ff00;
+    margin: 0;
+}
+
+.hero p {
+    font-size: 1.5em;
+    margin: 10px 0 20px 0;
+    color: #00ff00;
+}
+
+.hero .buttons {
+    display: flex;
+    gap: 20px;
+}
+
+.hero .buttons a {
+    padding: 15px 30px;
+    border-radius: 10px;
+    font-weight: bold;
+    transition: 0.3s;
+    text-transform: uppercase;
+    background-color: #ff0000;
+}
+
+.hero .buttons a:hover {
+    background-color: #00ff00;
+    color: #000;
+}
+
+/* ------------------- Product Grid ------------------- */
 .container {
-  max-width: 900px;
-  margin: auto;
-  padding: 20px;
+    max-width: 1200px;
+    margin: 50px auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+    padding: 0 20px;
+}
+
+.product-card {
+    background-color: #111;
+    border: 2px solid #222;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.product-card:hover {
+    border-color: #ff0000;
+    box-shadow: 0 0 10px #ff0000, 0 0 20px #00ff00;
+}
+
+.product-card h3 {
+    margin: 10px 0;
+}
+
+.product-card p {
+    margin: 5px 0;
+}
+
+.product-card button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background-color: #ff0000;
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.product-card button:hover {
+    background-color: #00ff00;
+    color: #000;
+}
+
+/* ------------------- Cart Page ------------------- */
+.cart-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 0 20px;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #111;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    border: 1px solid #222;
+}
+
+.cart-item h4 {
+    margin: 0;
+}
+
+.cart-item p {
+    margin: 0;
+}
+
+.cart-item button.delete {
+    background-color: #ff0000;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.cart-item button.delete:hover {
+    background-color: #00ff00;
+    color: #000;
+}
+
+.total {
+    text-align: right;
+    font-size: 1.5em;
+    margin-top: 20px;
+}
+
+.checkout-button {
+    margin-top: 20px;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    background-color: #ff0000;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.checkout-button:hover {
+    background-color: #00ff00;
+    color: #000;
+}
+
+/* ------------------- Checkout Form ------------------- */
+.checkout-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.checkout-form input, .checkout-form select {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #333;
+    background-color: #111;
+    color: #fff;
 }
