@@ -1,93 +1,208 @@
-/* Reset */
-* {margin:0;padding:0;box-sizing:border-box;}
-body {font-family: 'Roboto', sans-serif; background:#f5f5f5; color:#222;}
-a {text-decoration:none; color:inherit;}
+/* ==============================
+   PRODUCTS CONFIGURATION
+============================== */
+const products = [
+    {id:1, name:"Discord Nitro – 1 Month", price:7},
+    {id:2, name:"Discord Nitro – 1 Year", price:70},
+    {id:3, name:"Server Boost (14x) – 1 Month", price:5},
+    {id:4, name:"Server Boost (14x) – 3 Months", price:15}
+];
 
-/* Navbar */
-.navbar {
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:15px 50px;
-    background:#333;
-    color:#fff;
-    position:sticky; top:0; z-index:1000;
-}
-.navbar .logo img {height:50px;}
-.navbar ul {list-style:none; display:flex; gap:30px;}
-.navbar ul li {cursor:pointer; transition:0.3s;}
-.navbar ul li:hover {color:#ff4d4d;}
-.navbar .cart {position:relative; cursor:pointer; font-size:1.5em;}
-.cart-count {
-    position:absolute; top:-10px; right:-15px;
-    background:#ff4d4d; color:#fff; padding:3px 7px;
-    border-radius:50%; font-size:0.8em;
+/* ==============================
+   CART LOGIC
+============================== */
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+function updateCartCount() {
+    const badge = document.querySelector(".cart-count");
+    if (badge) badge.innerText = cart.length;
 }
 
-/* Hero Section */
-.hero {
-    width:100%; height:100vh; display:flex; flex-direction:column;
-    justify-content:center; align-items:center; text-align:center;
-    background: linear-gradient(to right,#4d79ff,#1a1a1a);
-    color:#fff; padding:20px;
-}
-.hero h1 {font-size:4em; margin-bottom:15px;}
-.hero p {font-size:1.5em; margin-bottom:30px;}
-.hero .buttons {display:flex; gap:20px;}
-.hero .buttons a {
-    padding:15px 40px; background:#ff4d4d; color:#fff; border-radius:8px; font-weight:bold;
-    transition:0.3s;
-}
-.hero .buttons a:hover {background:#4dff88; color:#000;}
-
-/* Product Grid */
-.container {max-width:1200px; margin:50px auto; padding:0 20px;
-    display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:25px;
-}
-.product-card {background:#fff; border-radius:10px; padding:20px; box-shadow:0 0 8px rgba(0,0,0,0.2);}
-.product-card h3{margin-bottom:10px;}
-.product-card p{margin-bottom:15px;}
-.product-card button{
-    padding:10px 20px; border:none; border-radius:5px; background:#ff4d4d; color:#fff;
-    font-weight:bold; cursor:pointer; transition:0.3s;
-}
-.product-card button:hover {background:#4dff88; color:#000;}
-
-/* Cart */
-.cart-container {max-width:900px; margin:50px auto; padding:20px; background:#fff; border-radius:10px;}
-.cart-item {
-    display:flex; justify-content:space-between; align-items:center;
-    padding:10px 0; border-bottom:1px solid #ccc;
-}
-.cart-item button.delete{
-    padding:5px 10px; border:none; border-radius:5px; background:#ff4d4d; color:#fff;
-    cursor:pointer;
-}
-.cart-item button.delete:hover {background:#4dff88; color:#000;}
-.total {text-align:right; margin-top:20px; font-weight:bold; font-size:1.2em;}
-.checkout-button{
-    margin-top:20px; padding:15px 30px; background:#ff4d4d; color:#fff; border:none;
-    border-radius:8px; cursor:pointer; font-weight:bold; transition:0.3s;
-}
-.checkout-button:hover {background:#4dff88; color:#000;}
-.checkout-form {display:flex; flex-direction:column; gap:10px; margin-top:20px;}
-.checkout-form input, .checkout-form select{
-    padding:10px; border-radius:5px; border:1px solid #ccc;
+/* ==============================
+   ADD PRODUCT TO CART
+============================== */
+function addToCart(productId) {
+    if(cart.length >= 3){
+        alert("Max 3 items allowed in cart!");
+        return;
+    }
+    const product = products.find(p => p.id === productId);
+    cart.push(product);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    updateCartCount();
+    alert(`${product.name} added to cart!`);
 }
 
-/* Discord page */
-.discord-hero {height:80vh; display:flex; flex-direction:column; justify-content:center; align-items:center; background:#4d79ff; color:#fff; text-align:center;}
-.discord-hero a {padding:15px 40px; background:#ff4d4d; border-radius:8px; color:#fff; font-weight:bold; transition:0.3s;}
-.discord-hero a:hover {background:#4dff88; color:#000;}
+/* ==============================
+   DISPLAY PRODUCTS IN SHOP GRID
+============================== */
+function displayProductsGrid() {
+    const container = document.getElementById("product-grid");
+    if(!container) return;
+    container.innerHTML = "";
+    products.forEach(p => {
+        const card = document.createElement("div");
+        card.className = "product-card";
+        card.innerHTML = `
+            <h3>${p.name}</h3>
+            <p>€${p.price}</p>
+            <button onclick="addToCart(${p.id})">Add to Cart</button>
+        `;
+        container.appendChild(card);
+    });
+}
 
-/* Admin Table */
-.admin-container {max-width:1000px; margin:50px auto; padding:0 20px;}
-.admin-container table {width:100%; border-collapse:collapse; background:#fff;}
-.admin-container th, td {padding:12px; border:1px solid #ccc; text-align:center;}
-.admin-container th {background:#f2f2f2;}
-.admin-container select{padding:5px; border-radius:5px; border:1px solid #ccc;}
+/* ==============================
+   DISPLAY CART
+============================== */
+function displayCart() {
+    const container = document.getElementById("cart-items");
+    if(!container) return;
+    container.innerHTML = "";
+    let total = 0;
+    cart.forEach((item, index) => {
+        total += item.price;
+        const div = document.createElement("div");
+        div.className = "cart-item";
+        div.innerHTML = `
+            <span>${item.name} (€${item.price})</span>
+            <button class="delete" onclick="removeFromCart(${index})">Remove</button>
+        `;
+        container.appendChild(div);
+    });
+    const totalEl = document.getElementById("cart-total");
+    if(totalEl) totalEl.innerText = `Total: €${total}`;
+}
 
-/* Footer */
-footer {background:#333; color:#fff; text-align:center; padding:20px; margin-top:50px;}
-footer img {height:30px; vertical-align:middle; margin-right:10px;}
+/* ==============================
+   REMOVE ITEM FROM CART
+============================== */
+function removeFromCart(index) {
+    cart.splice(index,1);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    displayCart();
+    updateCartCount();
+}
+
+/* ==============================
+   CHECKOUT FUNCTION
+============================== */
+function checkout() {
+    const email = document.getElementById("email").value.trim();
+    const discord = document.getElementById("discord").value.trim();
+
+    if(!email || !discord){
+        alert("Please provide Email and Discord ID.");
+        return;
+    }
+
+    if(cart.length === 0){
+        alert("Your cart is empty.");
+        return;
+    }
+
+    const orderID = "PVP-" + Math.floor(1000000000 + Math.random()*9000000000);
+    const total = cart.reduce((sum, i) => sum + i.price, 0);
+
+    const order = {
+        orderID,
+        email,
+        discord,
+        cart: [...cart],
+        total,
+        status:"Pending"
+    };
+
+    let orders = JSON.parse(localStorage.getItem("orders")) || [];
+    orders.push(order);
+    localStorage.setItem("orders", JSON.stringify(orders));
+
+    // Open PayPal link dynamically
+    window.open(`https://paypal.me/HarryFiveMYT/${total}`, "_blank");
+
+    // Alert for Tikkie (manual for now)
+    alert(`Order placed!\nOrder ID: ${orderID}\nTikkie payment not yet automated, create a ticket.`);
+
+    cart = [];
+    localStorage.setItem("cart", JSON.stringify(cart));
+    displayCart();
+    updateCartCount();
+}
+
+/* ==============================
+   DISPLAY ORDERS FOR ADMIN
+============================== */
+function displayOrders() {
+    const table = document.getElementById("orders-table");
+    if(!table) return;
+    table.innerHTML = "";
+    const orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+    orders.forEach((order, index) => {
+        const productsList = order.cart.map(p => p.name).join(", ");
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${order.orderID}</td>
+            <td>${order.email}</td>
+            <td>${order.discord}</td>
+            <td>${productsList}</td>
+            <td>€${order.total}</td>
+            <td>
+                <select onchange="updateStatus(${index}, this.value)">
+                    <option ${order.status==="Pending"?"selected":""}>Pending</option>
+                    <option ${order.status==="Paid"?"selected":""}>Paid</option>
+                    <option ${order.status==="In Progress"?"selected":""}>In Progress</option>
+                    <option ${order.status==="Completed"?"selected":""}>Completed</option>
+                    <option ${order.status==="Cancelled"?"selected":""}>Cancelled</option>
+                </select>
+            </td>
+            <td><button class="delete" onclick="deleteOrder(${index})">Delete</button></td>
+        `;
+        table.appendChild(row);
+    });
+}
+
+/* ==============================
+   UPDATE ORDER STATUS
+============================== */
+function updateStatus(index, status) {
+    const orders = JSON.parse(localStorage.getItem("orders")) || [];
+    orders[index].status = status;
+    localStorage.setItem("orders", JSON.stringify(orders));
+}
+
+/* ==============================
+   DELETE ORDER
+============================== */
+function deleteOrder(index) {
+    const orders = JSON.parse(localStorage.getItem("orders")) || [];
+    if(confirm("Delete this order?")) {
+        orders.splice(index,1);
+        localStorage.setItem("orders", JSON.stringify(orders));
+        displayOrders();
+    }
+}
+
+/* ==============================
+   ADMIN LOGIN BUTTON (right-bottom)
+============================== */
+document.addEventListener("DOMContentLoaded", function(){
+    const adminBtn = document.getElementById("admin-btn");
+    if(adminBtn){
+        adminBtn.addEventListener("click", function(){
+            const pwd = prompt("Enter admin password:");
+            const ADMIN_PASSWORD = "k!qwR5}Tab*Gmi+)iHuJvgGj]nLm1mCw=xjehk}7Gm).zg,riY";
+            if(pwd === ADMIN_PASSWORD){
+                window.location.href = "admin.html";
+            } else {
+                alert("Incorrect password!");
+            }
+        });
+    }
+});
+
+/* ==============================
+   INITIALIZATION
+============================== */
+updateCartCount();
 
