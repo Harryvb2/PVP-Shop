@@ -1,279 +1,77 @@
-/* =============================
-   GLOBAL RESET & BASE
-============================= */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+* { box-sizing:border-box; font-family: Arial, sans-serif; }
+
+body {
+margin:0;
+background:#0f1117;
+color:#fff;
 }
 
-html, body {
-    font-family: 'Inter', Arial, sans-serif;
-    background-color: #0f1115;
-    color: #eaeaea;
-    line-height: 1.6;
+nav {
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:20px 40px;
+background:#141824;
 }
 
-a {
-    text-decoration: none;
-    color: inherit;
+.logo { height:40px; }
+
+.nav-links a {
+margin:0 15px;
+color:#fff;
+text-decoration:none;
 }
 
-/* =============================
-   NAVBAR
-============================= */
-.navbar {
-    height: 80px;
-    padding: 0 60px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: #0b0d11;
-    border-bottom: 1px solid #1f222a;
-}
+.cart-btn { color:#1abc9c; }
 
-.navbar .logo img {
-    height: 45px;
-}
-
-.navbar ul {
-    display: flex;
-    gap: 50px;
-    list-style: none;
-}
-
-.navbar ul li {
-    font-size: 15px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    opacity: 0.85;
-    cursor: pointer;
-    transition: 0.25s;
-}
-
-.navbar ul li:hover {
-    opacity: 1;
-    color: #1abc9c;
-}
-
-.cart {
-    font-size: 22px;
-    position: relative;
-    cursor: pointer;
-}
-
-.cart-count {
-    position: absolute;
-    top: -8px;
-    right: -14px;
-    background: #e74c3c;
-    padding: 3px 7px;
-    font-size: 11px;
-    border-radius: 20px;
-}
-
-/* =============================
-   HERO SECTION
-============================= */
 .hero {
-    min-height: calc(100vh - 80px);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 0 20px;
-    background: radial-gradient(circle at top, #1a1f2b, #0f1115 70%);
+min-height:90vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
 }
 
-.hero h1 {
-    font-size: 72px;
-    font-weight: 800;
-    margin-bottom: 25px;
-    letter-spacing: -2px;
+.hero h1 { font-size:64px; margin-bottom:20px; }
+.hero p { font-size:20px; margin-bottom:40px; }
+
+.btn {
+padding:15px 30px;
+border-radius:30px;
+text-decoration:none;
+margin:10px;
 }
 
-.hero p {
-    font-size: 20px;
-    max-width: 700px;
-    opacity: 0.85;
-    margin-bottom: 50px;
+.primary { background:#e74c3c; color:#fff; }
+.secondary { border:1px solid #1abc9c; color:#1abc9c; }
+
+.shop { padding:60px; }
+#product-grid {
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:30px;
 }
 
-.hero .buttons {
-    display: flex;
-    gap: 25px;
+.product {
+background:#1a1f2e;
+padding:25px;
+border-radius:16px;
+text-align:center;
 }
 
-.hero .buttons a {
-    padding: 18px 50px;
-    font-size: 15px;
-    border-radius: 12px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    background: linear-gradient(135deg, #1abc9c, #16a085);
-    color: #000;
-    transition: transform 0.25s, box-shadow 0.25s;
-}
-
-.hero .buttons a:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(26,188,156,0.3);
-}
-
-/* =============================
-   SHOP GRID
-============================= */
-.container {
-    max-width: 1300px;
-    margin: 120px auto;
-    padding: 0 30px;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 50px;
-}
-
-.product-card {
-    background: #151822;
-    border-radius: 18px;
-    padding: 35px;
-    border: 1px solid #1f2430;
-    transition: transform 0.25s, box-shadow 0.25s;
-}
-
-.product-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-}
-
-.product-card h3 {
-    font-size: 20px;
-    margin-bottom: 20px;
-}
-
-.product-card p {
-    font-size: 16px;
-    opacity: 0.8;
-    margin-bottom: 35px;
-}
-
-.product-card button {
-    width: 100%;
-    padding: 16px;
-    font-size: 14px;
-    font-weight: 600;
-    border-radius: 10px;
-    border: none;
-    background: #1abc9c;
-    cursor: pointer;
-}
-
-/* =============================
-   CART & CHECKOUT
-============================= */
-.cart-container {
-    max-width: 900px;
-    margin: 120px auto;
-    background: #151822;
-    padding: 50px;
-    border-radius: 20px;
-    border: 1px solid #1f2430;
-}
-
-.cart-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 20px 0;
-    border-bottom: 1px solid #1f2430;
-}
-
-.cart-item:last-child {
-    border-bottom: none;
-}
-
-.total {
-    text-align: right;
-    font-size: 20px;
-    margin-top: 40px;
-    font-weight: 700;
-}
-
-.checkout-form {
-    margin-top: 50px;
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-}
-
-.checkout-form input {
-    padding: 18px;
-    border-radius: 10px;
-    border: none;
-    background: #0f1115;
-    color: #fff;
-    font-size: 14px;
-}
-
-.checkout-button {
-    padding: 18px;
-    border-radius: 12px;
-    background: #1abc9c;
-    border: none;
-    font-weight: 700;
-    cursor: pointer;
-}
-
-/* =============================
-   DISCORD PAGE
-============================= */
-.discord-hero {
-    min-height: calc(100vh - 80px);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
-.discord-hero h1 {
-    font-size: 56px;
-    margin-bottom: 30px;
-}
-
-.discord-hero p {
-    font-size: 18px;
-    margin-bottom: 40px;
-    opacity: 0.85;
-}
-
-.discord-hero a {
-    padding: 18px 50px;
-    background: #5865F2;
-    border-radius: 14px;
-    font-weight: 600;
-}
-
-/* =============================
-   ADMIN BUTTON
-============================= */
-#admin-btn {
-    position: fixed;
-    bottom: 25px;
-    right: 25px;
-    padding: 14px 20px;
-    background: #e74c3c;
-    border-radius: 50px;
-    font-size: 13px;
-    cursor: pointer;
-}
-
-/* =============================
-   FOOTER
-============================= */
 footer {
-    margin-top: 150px;
-    padding: 40px 20px;
-    text-align: center;
-    opacity: 0.6;
-    font-size: 13px;
+padding:30px;
+text-align:center;
+opacity:0.5;
+}
+
+#admin-btn {
+position:fixed;
+bottom:20px;
+right:20px;
+background:#e74c3c;
+padding:12px 18px;
+border-radius:30px;
+cursor:pointer;
 }

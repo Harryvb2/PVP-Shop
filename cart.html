@@ -1,43 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Cart - PVP Shop</title>
+<title>Cart</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="navbar">
-    <div class="logo"><img src="profiel store discord.png" alt="Logo"></div>
-    <ul>
-        <li onclick="location.href='index.html'">Home</li>
-        <li onclick="location.href='shop.html'">Shop</li>
-        <li onclick="location.href='discord.html'">Discord</li>
-    </ul>
-    <div class="cart" onclick="location.href='cart.html'">🛒<span class="cart-count">0</span></div>
-</div>
+<nav>
+<img src="logo.png" class="logo">
+<a href="shop.html">← Back</a>
+</nav>
 
-<div class="cart-container">
-    <div id="cart-items"></div>
-    <div class="total" id="cart-total">Total: €0</div>
-    <form class="checkout-form" onsubmit="event.preventDefault(); checkout();">
-        <input type="email" id="email" placeholder="Your Email" required>
-        <input type="text" id="discord" placeholder="Your Discord ID" required>
-        <button class="checkout-button">Checkout</button>
-    </form>
-</div>
+<section class="cart">
+<h2>Your Cart</h2>
+<div id="cart-items"></div>
+<h3>Total: €<span id="total">0</span></h3>
+<a class="btn primary" href="https://paypal.me/HarryFiveMYT">Pay with PayPal</a>
+<p>Tikkie: open a Discord ticket</p>
+</section>
 
-<!-- Admin login knop -->
-<div id="admin-btn">Admin</div>
-
-<footer>
-    <img src="profiel store discord.png" alt="Logo">
-    <p>© 2026 PVP Shop | All Rights Reserved</p>
-</footer>
-
+<div id="toast"></div>
+<script src="ui.js"></script>
 <script src="script.js"></script>
-<script>
-    displayCart();
-</script>
 </body>
 </html>

@@ -1,0 +1,13 @@
+{
+    "prefix": ".help",
+
+    "api_key": "t-662bd6a3b6c859001c3e5564-723b6f686e1f48b99a77e966",
+    "user_token": "961662045269418055",
+    "API_TOKEN": "dff9cc4b3fc444199146778b53bcc6de",
+    "upi_id": "devilchander@fam",
+    "unplash_api": "F1kSmh4MALfMKjHRxk38dZmPEV0OxsHdzuruBS_Y7to",
+    "webhook": "https://discord.com/api/webhooks/1471226523036946516/sA5plyIdne6roAJxV_WRmk5zSS4QYqVx7oJLecMrxLl1v7lJ9sboH1_ewGmeXD73JuAf",
+    "clear_enabled": false,
+    "clear_interval": 15,
+    "sleep_interval": 3
+}
