@@ -1,25 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Cart</title>
+<meta charset="UTF-8">
+<title>Cart - PVP Shop</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <nav>
-<img src="logo.png" class="logo">
-<a href="shop.html">← Back</a>
+  <img src="logo.png" class="logo">
+
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="discord.html">Discord</a>
+  </div>
+
+  <a href="cart.html" class="cart-btn">
+    🛒 <span id="cart-count">0</span>
+  </a>
 </nav>
 
 <section class="cart">
-<h2>Your Cart</h2>
-<div id="cart-items"></div>
-<h3>Total: €<span id="total">0</span></h3>
-<a class="btn primary" href="https://paypal.me/HarryFiveMYT">Pay with PayPal</a>
-<p>Tikkie: open a Discord ticket</p>
+  <h2>Your Cart</h2>
+
+  <div id="cart-items"></div>
+
+  <div class="cart-total">
+    <strong>Total:</strong> €<span id="total">0</span>
+  </div>
+
+  <a class="btn primary" href="https://paypal.me/HarryFiveMYT">
+    Pay with PayPal
+  </a>
+
+  <p class="cart-note">
+    Tikkie payments: create a Discord ticket after ordering
+  </p>
 </section>
 
+<footer>
+  <img src="logo.png">
+  <p>© 2026 PVP Shop</p>
+</footer>
+
 <div id="toast"></div>
+<div id="admin-btn">Admin</div>
+
 <script src="ui.js"></script>
 <script src="script.js"></script>
 </body>

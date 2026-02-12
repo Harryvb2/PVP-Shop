@@ -75,3 +75,76 @@ padding:12px 18px;
 border-radius:30px;
 cursor:pointer;
 }
+/* =====================
+   CART PAGE FIX
+===================== */
+.cart {
+  max-width: 900px;
+  margin: 80px auto;
+  padding: 40px;
+}
+
+.cart h2 {
+  margin-bottom: 30px;
+}
+
+.cart-total {
+  margin: 30px 0;
+  font-size: 20px;
+}
+
+.cart-note {
+  margin-top: 20px;
+  opacity: 0.7;
+}
+
+/* NAVBAR FIX */
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-links {
+  display: flex;
+  gap: 30px;
+}
+/* =========================
+   HARD RESET (BELANGRIJK)
+========================= */
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* =========================
+   MAIN STRUCTURE
+========================= */
+main {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* =========================
+   HERO FIX (NOOIT MEER LINKS)
+========================= */
+.hero {
+  width: 100%;
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 20px;
+}
+
+/* ZORG DAT LOGO NOOIT VERDWIJNT */
+.logo {
+  display: block;
+  max-height: 40px;
+}
+
